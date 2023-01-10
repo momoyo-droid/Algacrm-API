@@ -1,7 +1,6 @@
 package com.alga.crm.controller;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,52 +19,43 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alga.crm.model.Customer;
 import com.alga.crm.repository.CustomerRepository;
 
-
-
-@RestController 
+@RestController
 @RequestMapping("/customers")
 public class CustomerController {
-	
+
 	@Autowired /* instancia customerRepository automaticamente atraves da interface */
 	private CustomerRepository customerRepository;
+
 	/* busca todos os clientes */
 	@GetMapping
-	public List<Customer> list() {
+	public List<Customer> listCustomer() {
 		return customerRepository.findAll();
 	}
+
 	/* busca cliente por id */
 	@GetMapping("/{id}")
-	public Optional<Customer> searchId(@PathVariable("id") Long searchedId) {
+	public Optional<Customer> searchCustomerId(@PathVariable("id") Long searchedId) {
 		return customerRepository.findById(searchedId);
 	}
-	
+
 	/* busca cliente por nome */
 	@GetMapping("/name")
-	public List<Customer> searchName(@RequestParam String name) {
+	public List<Customer> searchCustomerName(@RequestParam String name) {
 		return customerRepository.findByName(name);
 	}
-	
-	
+	/* busca cliente por data de cadastro */
 	@GetMapping("/registration-date")
-	public List<Customer> searchRegistrationDate(@RequestParam("date") 
-		@DateTimeFormat(pattern ="yyyyMMdd") LocalDate registrationDate){
-		
+	public List<Customer> searchCustomerRegistrationDate(
+			@RequestParam("date") @DateTimeFormat(pattern = "yyyyMMdd") LocalDate registrationDate) {
+
 		return customerRepository.findByRegistrationDate(registrationDate);
 	}
-	
-	/* busca cliente por data de registro */
-//	@GetMapping("/registration-date")
-//	public List<Customer> searchRegistrationDate(@RequestParam("date") String registrationDate ){
-//		LocalDate date_ = LocalDate.parse(registrationDate, DateTimeFormatter.ofPattern("yyyyMMdd"));	
-//		return customerRepository.findByRegistrationDate(date_.toString());
-//	}
-//	
-	/* cadastro de customers */
+
+	/* cadastro de clientes */
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Customer addCustomer(@RequestBody Customer customer) {
 		return customerRepository.save(customer);
 	}
-	
-	
+
 }

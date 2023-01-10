@@ -10,16 +10,16 @@ import jakarta.persistence.Id;
 import lombok.Data;
 
 @Data
-@Entity 
+@Entity
 public class Customer {
-	
-	@Id 
-	@GeneratedValue(strategy = GenerationType.IDENTITY) 
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@Column(nullable = false) 
+
+	@Column(nullable = false)
 	private String name;
-	
+
 	@Column(nullable = false)
 	private LocalDate registrationDate;
 }
